@@ -26,6 +26,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
      */
     ConexionBD con = new ConexionBD();
     Connection cn = con.conexion();
+    Metodos met = new Metodos();
     public GestionUsuarios() throws SQLException {
         initComponents();
         setResizable(false);
@@ -48,6 +49,10 @@ public class GestionUsuarios extends javax.swing.JFrame {
         }
         
     }
+        private void limpiarCajas(){
+            this.txtRun.setText("");
+        }
+        
             void mostrardatos(String run){
     DefaultTableModel modelo= new DefaultTableModel();
     modelo.addColumn("id");
@@ -111,6 +116,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnmodusuario = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +171,13 @@ public class GestionUsuarios extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setText("Eliminar Usuario");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,29 +185,30 @@ public class GestionUsuarios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(156, 156, 156)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtRun)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnBuscar))
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(33, 33, 33)
-                                .addComponent(btnAgregar)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnmodusuario)))
-                        .addGap(0, 126, Short.MAX_VALUE))
+                        .addGap(156, 156, 156)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtRun)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(33, 33, 33)
+                .addComponent(btnAgregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(btnmodusuario)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +222,8 @@ public class GestionUsuarios extends javax.swing.JFrame {
                     .addComponent(btnBuscar)
                     .addComponent(txtRun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnmodusuario))
+                    .addComponent(btnmodusuario)
+                    .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
@@ -257,7 +272,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+
         mostrardatos(txtRun.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -267,6 +282,21 @@ public class GestionUsuarios extends javax.swing.JFrame {
         mg.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(this.txtRun.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debe ingresar el run del usuario.");
+        }
+        else{
+        try {
+            met.eliminarUsuario(this.txtRun.getText());
+            limpiarCajas();
+            mostrar();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,6 +341,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnmodusuario;
     private javax.swing.JLabel jLabel1;

@@ -23,10 +23,21 @@ public class ModificarUsuario extends javax.swing.JFrame {
      */
     ConexionBD con = new ConexionBD();
     Connection cn = ConexionBD.conexion();
-    
+    Usuario user;
+    Metodos met = new Metodos();
     public ModificarUsuario()throws SQLException {
         initComponents();
         setLocation(700, 100);
+    }
+    private void limpiarCajas(){
+        this.txtid.setText("");
+        this.txtnombre.setText("");
+        this.txtapellidoP.setText("");
+        this.txtapellidoM.setText("");
+        this.txtcorreo.setText("");
+        this.txtnomusu.setText("");
+        this.txtrun.setText("");
+        this.txtdv.setText("");
     }
 
     /**
@@ -185,18 +196,12 @@ public class ModificarUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+
+        this.user = new Usuario(ModificarUsuario.txtnombre.getText(), ModificarUsuario.txtrun.getText(),ModificarUsuario.txtdv.getText(), ModificarUsuario.txtapellidoP.getText(), this.txtapellidoM.getText(), Metodos.nomUsu(this.txtnombre.getText(), this.txtapellidoP.getText()), Metodos.contrasenia(this.txtnombre.getText(), this.txtrun.getText()), ModificarUsuario.txtcorreo.getText());
         try {
-            PreparedStatement ps = cn.prepareStatement("UPDATE mydb.usuario SET run = ?,digitoverificador = ?, nombre =?, apePaterno=?, apeMaterno=?, email=? WHERE mydb.usuario.idUsu = "+txtid.getText());
-            ps.setString(1, txtrun.getText());
-            ps.setString(2, txtdv.getText());
-            ps.setString(3, txtnombre.getText());
-            ps.setString(4, txtapellidoP.getText());
-            ps.setString(5, txtapellidoM.getText());
-            ps.setString(6, txtcorreo.getText());
-            int rowsUpdated = ps.executeUpdate();
-            if(rowsUpdated > 0){
-                JOptionPane.showMessageDialog(null, "Modificado correctamente.");
-            }
+            met.modificarUsuario(user, this.txtid.getText());
+            JOptionPane.showMessageDialog(null, "Modificado correctamente");
+            limpiarCajas();
         } catch (SQLException ex) {
             Logger.getLogger(ModificarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -11,15 +11,17 @@
 public class Usuario {
     private String nombre;
     private String run;
+    private String dv;
     private String apePaterno;
     private String apeMaterno;
     private String nomUsu;
     private String contrasenia;
     private String email;
 
-    public Usuario(String nombre, String run, String apePaterno, String apeMaterno, String nomUsu, String contrasenia, String email) {
+    public Usuario(String nombre, String run, String dv, String apePaterno, String apeMaterno, String nomUsu, String contrasenia, String email) {
         this.nombre = nombre;
         this.run = run;
+        this.dv = dv;
         this.apePaterno = apePaterno;
         this.apeMaterno = apeMaterno;
         this.nomUsu = nomUsu;
@@ -27,7 +29,17 @@ public class Usuario {
         this.email = email;
     }
 
+
+
     public Usuario() {
+    }
+
+    public String getDv() {
+        return dv;
+    }
+
+    public void setDv(String dv) {
+        this.dv = dv;
     }
 
     public String getNombre() {

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.management.Query.or;
 import javax.swing.JOptionPane;
 
 /*
@@ -24,34 +25,21 @@ public class AgregarUsuario extends javax.swing.JFrame {
     ConexionBD con = new ConexionBD();
     Connection cn = con.conexion();
     
-    
+    Usuario user;
+    Metodos met = new Metodos();
     public AgregarUsuario() throws SQLException{
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
     }
-    //Metodo para generar el nombre de usuario
-    private String nomUsu(String nombre, String apellido){
-        String nomusuario = "";
-        String n = nombre.substring(0,3);
-        String a = apellido.substring(0,3);
-        nomusuario = n + a;
-                System.out.println(nomusuario);
-        return nomusuario;
-
+        private void limpiarCajas(){
+        this.txtrun.setText("");
+        this.txtNombre.setText("");
+        this.txtApellidoP.setText("");
+        this.txtApellidoM.setText("");
+        this.txtcorreo.setText("");
+        this.txtDv.setText("");
     }
-    
-    //Metodo para generar la contraseña del usuario
-    private String contrasenia(String nombre, String run){
-        String contrasenia ="";
-        String n = nombre.substring(0,3);
-        String r = run.substring(0,8);
-        contrasenia = n + r;
-        System.out.println(contrasenia);
-        return contrasenia;
-        
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -185,24 +173,22 @@ public class AgregarUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        /*-------------------------------Esta parte no esta funcionando--------------------------------------*/
+    if(this.txtrun.getText().equals("") || this.txtDv.getText().equals("") || this.txtNombre.getText().equals("") || this.txtApellidoP.getText().equals("") || this.txtApellidoM.getText().equals("") || this.txtcorreo.getText().equals("")){
+        JOptionPane.showMessageDialog(null, "Debe rellenar los campos correctamente");
+        limpiarCajas();
+    }
+        else{
+        this.user = new Usuario(this.txtNombre.getText(), this.txtrun.getText(),this.txtDv.getText(), this.txtApellidoP.getText(), this.txtApellidoM.getText(), Metodos.nomUsu(this.txtNombre.getText(), this.txtApellidoP.getText()), Metodos.contrasenia(this.txtNombre.getText(), this.txtrun.getText()), this.txtcorreo.getText());
         try {
-            PreparedStatement ps = cn.prepareStatement("INSERT INTO mydb.usuario (run, digitoverificador ,nomUsu, nombre,apePaterno, apeMaterno,email, clave) VALUES (?,?,?,?,?,?,?,?)");
-            ps.setString(1, txtrun.getText());
-            ps.setString(2, txtDv.getText());
-            ps.setString(3, this.nomUsu(txtNombre.getText(), txtApellidoP.getText()));
-            ps.setString(4, txtNombre.getText());
-            ps.setString(5, txtApellidoP.getText());
-            ps.setString(6, txtApellidoM.getText());
-            ps.setString(7, txtcorreo.getText());
-            ps.setString(8, this.contrasenia(txtNombre.getText(), txtrun.getText()));
-            JOptionPane.showMessageDialog(null, "Datos Guardados.");
-
-                    } catch (SQLException ex)
-                    {
-                        JOptionPane.showMessageDialog(null,"Error");
+            met.agregarUsuario(user);
+            limpiarCajas();
+            Object ex = null;
+            Logger.getLogger(AgregarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(AgregarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
+                }
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
