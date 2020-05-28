@@ -14,17 +14,39 @@ public class Producto {
     private String fechaVenc;
     private int precio;
     private String codBarra;
+    private String categoria;
+    private int stock;
 
-    public Producto(String nomProd, String fechaElab, String fechaVenc, int precio, String codBarra) {
+    public Producto(String nomProd, String fechaElab, String fechaVenc, int precio, String codBarra, String categoria ) {
         this.nomProd = nomProd;
         this.fechaElab = fechaElab;
         this.fechaVenc = fechaVenc;
         this.precio = precio;
         this.codBarra = codBarra;
+        this.categoria = categoria;
     }
+
+
 
     public Producto() {
     }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    
 
     public String getNomProd() {
         return nomProd;

@@ -112,8 +112,36 @@ public class Metodos {
         JOptionPane.showMessageDialog(null, "Eliminado correctamente.");
     }
 
-    void agregarProveedor(String text, String text0, String text1, String text2, String text3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    //METODOS PARA LA GESTION DE PRODUCTOS
+    public void agregarProducto(Producto prod) throws SQLException{
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        PreparedStatement ps = cn.prepareStatement("INSERT INTO mydb.producto (nbrePro,FeElab,feVenc,precio,codBarra,Categoria_idCateg,Stock_idStock) VALUES (?,?,?,?,?,(select idCateg FROM mydb.categoria WHERE nomCateg = ?),(select idStock from mydb.stock))");
+        ps.setString(1, prod.getNomProd());
+        ps.setString(2, prod.getFechaElab());
+        ps.setString(3, prod.getFechaVenc());
+        ps.setInt(4, prod.getPrecio());
+        ps.setString(5, prod.getCodBarra());
+        ps.setString(6, prod.getCategoria());
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Agregado correctamente.");
     }
+    public void modificarProducto(Proveedor prov, String id)throws SQLException{
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        PreparedStatement ps = cn.prepareStatement("UPDATE mydb.producto SET nbrePro=?,FeElab=?,feVenc=?,precio=?,codBarra=? WHERE idProd = "+ id);
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Modificado correctamnte");
+    }
+    public void eliminarProducto(String id)throws SQLException{
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        PreparedStatement ps = cn.prepareStatement("DELETE FROM mydb.producto WHERE idProd = "+id);
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Eliminado correctamente.");
+    
+    }
+    
 }  
 

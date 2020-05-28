@@ -185,7 +185,9 @@ public class MenuGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresarStockActionPerformed
 
     private void btnGestionproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionproductosActionPerformed
-        // TODO add your handling code here:
+        GestionProductos gp = new GestionProductos();
+        gp.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnGestionproductosActionPerformed
 
     private void btnHistorialventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialventasActionPerformed

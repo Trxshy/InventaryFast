@@ -38,6 +38,11 @@ public class GestionProductos extends javax.swing.JFrame {
         jLabel1.setText("Gestión de productos");
 
         btnAgregarProd.setText("Agregar producto");
+        btnAgregarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarProdActionPerformed(evt);
+            }
+        });
 
         btnModificarProd.setText("Modificar producto");
 
@@ -52,6 +57,11 @@ public class GestionProductos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -89,6 +99,16 @@ public class GestionProductos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnAgregarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProdActionPerformed
+        AgregarProducto ap = new AgregarProducto();
+        ap.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAgregarProdActionPerformed
 
     /**
      * @param args the command line arguments
