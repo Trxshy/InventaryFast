@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -25,14 +26,18 @@ public class GestionProveedor extends javax.swing.JFrame {
      */
     ConexionBD con = new ConexionBD();
     Connection cn = con.conexion();
-    
+    Metodos met = new Metodos();
     public GestionProveedor()throws SQLException {
         initComponents();
+        mostrar();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        
         
     }
         private void mostrar() throws SQLException{
         DefaultTableModel model = new DefaultTableModel();
-        ResultSet rs = ConexionBD.getTabla("select idProveedor, run,Dv, nomProv, Direccion, numero from mydb.proveedor");
+        ResultSet rs = ConexionBD.getTabla("select idProveedor, run,Dv, nomProv, Direccion, numero from mydb.proveedor ");
         model.setColumnIdentifiers(new Object[]{"id","rut","Digito verificador","nombre","dirección","numero de contacto"});
         try {
             while(rs.next()){
@@ -67,7 +72,7 @@ void mostrardatos(String id){
         sql="SELECT idProveedor, run,Dv, nomProv, Direccion, numero from mydb.proveedor WHERE idProveedor='"+id+"'";
     }
  
-    String []datos = new String [5];
+    String []datos = new String [6];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -77,6 +82,7 @@ void mostrardatos(String id){
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);
                 datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
 
 
                 modelo.addRow(datos);
@@ -102,8 +108,11 @@ void mostrardatos(String id){
         tablaproveedor = new javax.swing.JTable();
         btnagregar = new javax.swing.JButton();
         btnmodificar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         txtbuscar = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,7 +151,23 @@ void mostrardatos(String id){
             }
         });
 
-        jButton1.setText("Buscar");
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Debe ingresar el run sin puntos ni digito verificador");
+
+        btnEliminar.setText("Eliminar proveedor");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Debe buscar el proveedor para poder eliminarlo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,31 +180,45 @@ void mostrardatos(String id){
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(btnBuscar))
+                                    .addComponent(jLabel2))
+                                .addGap(34, 34, 34)
+                                .addComponent(btnagregar)
+                                .addGap(28, 28, 28)
+                                .addComponent(btnmodificar))
+                            .addComponent(jLabel3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(btnEliminar)))
                 .addContainerGap(19, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(61, 61, 61)
-                .addComponent(btnagregar)
-                .addGap(34, 34, 34)
-                .addComponent(btnmodificar)
-                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnagregar)
                     .addComponent(btnmodificar)
-                    .addComponent(jButton1)
+                    .addComponent(btnBuscar)
                     .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
         );
@@ -222,7 +261,20 @@ void mostrardatos(String id){
         ModificarProveedor.txtdireccion.setText(tablaproveedor.getValueAt(cor, 4).toString());
         ModificarProveedor.txtnumero.setText(tablaproveedor.getValueAt(cor, 5).toString());
         
+        
     }//GEN-LAST:event_tablaproveedorMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        mostrardatos(txtbuscar.getText());
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            met.eliminarProveedor(txtbuscar.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,12 +316,19 @@ void mostrardatos(String id){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btnmodificar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaproveedor;
     private javax.swing.JTextField txtbuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void mostrardatos(JTextField txtbuscar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

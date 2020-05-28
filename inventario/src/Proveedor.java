@@ -11,17 +11,29 @@
 public class Proveedor {
     private String nombre;
     private String run;
+    private String Dv;
     private String numeroContacto;
     private String direccion;
 
-    public Proveedor(String nombre, String run, String numeroContacto, String direccion) {
+    public Proveedor(String nombre, String run, String Dv, String numeroContacto, String direccion) {
         this.nombre = nombre;
         this.run = run;
+        this.Dv = Dv;
         this.numeroContacto = numeroContacto;
         this.direccion = direccion;
     }
 
+
+
     public Proveedor() {
+    }
+
+    public String getDv() {
+        return Dv;
+    }
+
+    public void setDv(String Dv) {
+        this.Dv = Dv;
     }
 
     public String getNombre() {

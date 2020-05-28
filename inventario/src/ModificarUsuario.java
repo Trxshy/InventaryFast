@@ -68,6 +68,8 @@ public class ModificarUsuario extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtid = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        cmb_cargo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +110,10 @@ public class ModificarUsuario extends javax.swing.JFrame {
 
         txtid.setEditable(false);
 
+        jLabel10.setText("Cargo:");
+
+        cmb_cargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Vendedor", "Cajero", "Jefe de local", "Administrador", "Encargado de bodega" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,7 +130,8 @@ public class ModificarUsuario extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel8)
                                 .addComponent(jLabel3))
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -138,7 +145,8 @@ public class ModificarUsuario extends javax.swing.JFrame {
                             .addComponent(txtapellidoM)
                             .addComponent(txtcorreo)
                             .addComponent(txtnomusu)
-                            .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmb_cargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(88, 88, 88)
                         .addComponent(jLabel1)))
@@ -185,7 +193,11 @@ public class ModificarUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(cmb_cargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnVolver))
@@ -197,7 +209,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
-        this.user = new Usuario(ModificarUsuario.txtnombre.getText(), ModificarUsuario.txtrun.getText(),ModificarUsuario.txtdv.getText(), ModificarUsuario.txtapellidoP.getText(), this.txtapellidoM.getText(), Metodos.nomUsu(this.txtnombre.getText(), this.txtapellidoP.getText()), Metodos.contrasenia(this.txtnombre.getText(), this.txtrun.getText()), ModificarUsuario.txtcorreo.getText());
+        this.user = new Usuario(ModificarUsuario.txtnombre.getText(), ModificarUsuario.txtrun.getText(),ModificarUsuario.txtdv.getText(), ModificarUsuario.txtapellidoP.getText(), this.txtapellidoM.getText(), Metodos.nomUsu(this.txtnombre.getText(), this.txtapellidoP.getText()), Metodos.contrasenia(this.txtnombre.getText(), this.txtrun.getText()), ModificarUsuario.txtcorreo.getText(),(String)this.cmb_cargo.getSelectedItem());
         try {
             met.modificarUsuario(user, this.txtid.getText());
             JOptionPane.showMessageDialog(null, "Modificado correctamente");
@@ -263,7 +275,9 @@ public class ModificarUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
+    public static javax.swing.JComboBox cmb_cargo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

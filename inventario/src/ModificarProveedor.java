@@ -23,11 +23,20 @@ public class ModificarProveedor extends javax.swing.JFrame {
      */
     ConexionBD con = new ConexionBD();
     Connection cn = con.conexion();
+    Metodos met = new Metodos();
+    Proveedor prov;
     public ModificarProveedor()throws SQLException {
         initComponents();
         setLocation(700, 100);
     }
-
+     private void limpiarCajas(){
+         txtid.setText("");
+         txtdireccion.setText("");
+         txtdv.setText("");
+         txtnombre.setText("");
+         txtrut.setText("");
+         txtnumero.setText("");
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -156,20 +165,16 @@ public class ModificarProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-        // TODO add your handling code here:
+        if(txtid.getText().equals("")||txtnombre.getText().equals("")||txtrut.getText().equals("")||txtdv.getText().equals("")||txtdireccion.getText().equals("")||txtnumero.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un proveedor a modificar.");
+        }
+        else{
+        prov = new Proveedor(txtnombre.getText(),txtrut.getText(),txtdv.getText(),txtnumero.getText(),txtdireccion.getText());
         try {
-            PreparedStatement ps = cn.prepareStatement("UPDATE mydb.proveedor SET Run = ?,Dv = ?, nomProv =?, Direccion=?, Direccion=?, numero=? WHERE mydb.proveedor.idProv = "+txtid.getText());
-            ps.setString(1, txtrut.getText());
-            ps.setString(2, txtdv.getText());
-            ps.setString(3, txtnombre.getText());
-            ps.setString(4, txtdireccion.getText());
-            ps.setString(5, txtnumero.getText());
-            int rowsUpdated = ps.executeUpdate();
-            if(rowsUpdated > 0){
-                JOptionPane.showMessageDialog(null, "Modificado correctamente.");
-            }
+            met.modificarProveedor(prov, txtid.getText());
         } catch (SQLException ex) {
-            Logger.getLogger(ModificarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModificarProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_btnmodificarActionPerformed
 

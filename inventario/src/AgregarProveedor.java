@@ -23,6 +23,8 @@ public class AgregarProveedor extends javax.swing.JFrame {
      */
     ConexionBD con = new ConexionBD();
     Connection cn = con.conexion();
+    Metodos met = new Metodos();
+    Proveedor prov;
     public AgregarProveedor() throws SQLException {
         initComponents();
     }
@@ -141,19 +143,13 @@ public class AgregarProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-        try {
-            // TODO add your handling code here:
-            PreparedStatement ps = cn.prepareStatement("INSERT INTO mydb.proveedor (Run,Dv,NomProv,Direccion,numero) VALUES (?,?,?,?,?)");
-            ps.setString(1, txtrut.getText());
-            ps.setString(2, txtdv.getText());
-            ps.setString(3, txtnombre.getText());
-            ps.setString(4, txtdireccion.getText());
-            ps.setString(5, txtnumero.getText());
-            JOptionPane.showMessageDialog(null, "Datos guardados.");
+        prov = new Proveedor(txtnombre.getText(),txtrut.getText(),txtdv.getText(),txtnumero.getText(),txtdireccion.getText());
+        try {             
+            met.agregarProveedor(prov);
         } catch (SQLException ex) {
             Logger.getLogger(AgregarProveedor.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Error.");
         }
+      
     }//GEN-LAST:event_btnagregarActionPerformed
 
     /**

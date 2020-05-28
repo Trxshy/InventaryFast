@@ -17,8 +17,9 @@ public class Usuario {
     private String nomUsu;
     private String contrasenia;
     private String email;
+    private String cargo;
 
-    public Usuario(String nombre, String run, String dv, String apePaterno, String apeMaterno, String nomUsu, String contrasenia, String email) {
+    public Usuario(String nombre, String run, String dv, String apePaterno, String apeMaterno, String nomUsu, String contrasenia, String email, String cargo) {
         this.nombre = nombre;
         this.run = run;
         this.dv = dv;
@@ -27,11 +28,22 @@ public class Usuario {
         this.nomUsu = nomUsu;
         this.contrasenia = contrasenia;
         this.email = email;
+        this.cargo = cargo;
     }
 
 
 
+
+
     public Usuario() {
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public String getDv() {

@@ -36,12 +36,12 @@ public class GestionUsuarios extends javax.swing.JFrame {
     }
         private void mostrar() throws SQLException{
         DefaultTableModel model = new DefaultTableModel();
-        ResultSet rs = ConexionBD.getTabla("select idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email from mydb.usuario");
-        model.setColumnIdentifiers(new Object[]{"id","run","Digito verificador","nombre usuario","nombre","apellido paterno","apellido materno","email"});
+        ResultSet rs = ConexionBD.getTabla("select idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email, nomTiUsu from mydb.usuario join mydb.ti_usu ON (mydb.usuario.Ti_Usu_idTiUsu = mydb.ti_usu.idTiUsu)");
+        model.setColumnIdentifiers(new Object[]{"id","run","Digito verificador","nombre usuario","nombre","apellido paterno","apellido materno","email","cargo"});
         try {
             while(rs.next()){
                 model.addRow(new Object[]{rs.getString("idUsu"),rs.getString("run"),  rs.getString("digitoverificador") ,rs.getString("nomUsu"),
-                rs.getString("nombre"),rs.getString("apePaterno"),rs.getString("apeMaterno"),rs.getString("email")});
+                rs.getString("nombre"),rs.getString("apePaterno"),rs.getString("apeMaterno"),rs.getString("email"),rs.getString("nomTiUsu")});
             }
             tablaUsuarios.setModel(model);
         } catch (Exception e) {
@@ -63,21 +63,22 @@ public class GestionUsuarios extends javax.swing.JFrame {
     modelo.addColumn("apellido paterno");
     modelo.addColumn("apellido materno");
     modelo.addColumn("correo");
+    modelo.addColumn("cargo");
 
     tablaUsuarios.setModel(modelo);
     String sql="";
     if(run.equals(""))
     {
         
-        sql="SELECT idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email from mydb.usuario ";
+        sql="SELECT idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email,(select ti_usu.nomTiUsu from mydb.ti_usu WHERE mydb.usuario.Ti_Usu_idTiUsu = ti_usu.idTiUsu) from mydb.usuario ";
         JOptionPane.showMessageDialog(null, "Debe ingresar un run");
         
     }
     else{
-        sql="SELECT idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email from mydb.usuario WHERE run='"+run+"'";
+        sql="SELECT idUsu, run,digitoverificador, nomUsu, nombre, apePaterno, apeMaterno, email, (select ti_usu.nomTiUsu from mydb.ti_usu WHERE mydb.usuario.Ti_Usu_idTiUsu = ti_usu.idTiUsu) from mydb.usuario WHERE run='"+run+"'";
     }
  
-    String []datos = new String [8];
+    String []datos = new String [9];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -90,6 +91,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
                 datos[5]=rs.getString(6);
                 datos[6]=rs.getString(7);
                 datos[7]=rs.getString(8);
+                datos[8]=rs.getString(9);
                 modelo.addRow(datos);
             }
             tablaUsuarios.setModel(modelo);
@@ -117,6 +119,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
         btnmodusuario = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,6 +181,8 @@ public class GestionUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Debe buscar el usuario para poder eliminarlo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,19 +201,21 @@ public class GestionUsuarios extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtRun)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtRun)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnBuscar))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(jLabel2))
                 .addGap(33, 33, 33)
-                .addComponent(btnAgregar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(btnmodusuario)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar)
-                .addGap(26, 26, 26))
+                .addGap(151, 151, 151))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,9 +229,12 @@ public class GestionUsuarios extends javax.swing.JFrame {
                     .addComponent(btnBuscar)
                     .addComponent(txtRun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnmodusuario)
-                    .addComponent(btnEliminar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                    .addComponent(btnmodusuario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(btnVolver)
@@ -269,6 +279,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
         ModificarUsuario.txtapellidoP.setText(tablaUsuarios.getValueAt(cor, 5).toString());
         ModificarUsuario.txtapellidoM.setText(tablaUsuarios.getValueAt(cor, 6).toString());
         ModificarUsuario.txtcorreo.setText(tablaUsuarios.getValueAt(cor, 7).toString());
+        ModificarUsuario.cmb_cargo.setSelectedItem(tablaUsuarios.getValueAt(cor, 8).toString());
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -345,6 +356,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnmodusuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaUsuarios;

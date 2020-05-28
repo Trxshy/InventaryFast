@@ -1,5 +1,4 @@
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,8 +12,7 @@ public class Metodos {
         Connection cn = con.conexion();
         try{
         PreparedStatement ps;
-        ps = cn.prepareStatement("INSERT INTO mydb.usuario (run, digitoverificador ,nomUsu, nombre,apePaterno, apeMaterno,email, clave) VALUES (?,?,?,?,?,?,?,?)");
-                //+ (usuario.getRun()+ ","+  usuario.getDv()+"," + usuario.getNomUsu()+"," + usuario.getNombre()+","+ usuario.getApePaterno()+","+usuario.getApeMaterno()+","+ usuario.getEmail()+","+usuario.getContrasenia()));
+        ps = cn.prepareStatement("INSERT INTO mydb.usuario (run, digitoverificador ,nomUsu, nombre,apePaterno, apeMaterno,email, clave, Ti_Usu_idTiUsu) VALUES (?,?,?,?,?,?,?,?,(select idTiUsu FROM mydb.ti_usu WHERE nomTiUsu =?))");
         ps.setString(1, usuario.getRun());
         ps.setString(2, usuario.getDv());
         ps.setString(3, usuario.getNomUsu());
@@ -23,6 +21,7 @@ public class Metodos {
         ps.setString(6, usuario.getApeMaterno());
         ps.setString(7, usuario.getEmail());
         ps.setString(8, usuario.getContrasenia());
+        ps.setString(9, usuario.getCargo());
         ps.executeUpdate();
         JOptionPane.showMessageDialog(null, "Agregado correctamente");
         }catch (SQLException ex) {
@@ -33,7 +32,7 @@ public class Metodos {
     public void modificarUsuario(Usuario usuario, String id) throws SQLException{
         ConexionBD con = new ConexionBD();
         Connection cn = con.conexion();
-        PreparedStatement ps = cn.prepareStatement("UPDATE mydb.usuario SET run = ?,digitoverificador = ?, nombre =?, apePaterno=?, apeMaterno=?, email=?, nomUsu=?,clave=? WHERE mydb.usuario.idUsu = "+ id);
+        PreparedStatement ps = cn.prepareStatement("UPDATE mydb.usuario SET run = ?,digitoverificador = ?, nombre =?, apePaterno=?, apeMaterno=?, email=?, nomUsu=?,clave=?, Ti_Usu_idTiUsu = (select idTiUsu from ti_usu WHERE nomTiUsu = ?) WHERE mydb.usuario.idUsu = "+ id);
         ps.setString(1, usuario.getRun());
         ps.setString(2, usuario.getDv());
         ps.setString(3, usuario.getNombre());
@@ -42,6 +41,7 @@ public class Metodos {
         ps.setString(6, usuario.getEmail());
         ps.setString(7, usuario.getNomUsu());
         ps.setString(8, usuario.getContrasenia());
+        ps.setString(9, usuario.getCargo());
         ps.executeUpdate();
     }
     public void eliminarUsuario(String run) throws SQLException{
@@ -69,4 +69,51 @@ public class Metodos {
         nomusuario = n + a;
         return nomusuario;
     }
-}
+    
+    //METODOS PARA LA GESTION DE PROVEEDORES
+    public void agregarProveedor(Proveedor prov) throws SQLException{
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        try{
+        PreparedStatement ps = cn.prepareStatement("INSERT INTO mydb.proveedor (Run, Dv, NomProv,Direccion,numero) VALUES (?,?,?,?,?)");
+        ps.setString(1, prov.getRun());
+        ps.setString(2, prov.getDv());
+        ps.setString(3, prov.getNombre());
+        ps.setString(4, prov.getDireccion());
+        ps.setString(5, prov.getNumeroContacto());
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Agregado correctamente.");
+        }catch (SQLException ex){
+            
+        }
+      
+    }
+    public void modificarProveedor(Proveedor prov, String id)throws SQLException{
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        try{
+            PreparedStatement ps = cn.prepareStatement("UPDATE mydb.proveedor SET Run=?,Dv=?,NomProv=?, Direccion=?,numero=? WHERE idProveedor = "+ id);
+            ps.setString(1, prov.getRun());
+            ps.setString(2, prov.getDv());
+            ps.setString(3, prov.getNombre());
+            ps.setString(4, prov.getDireccion());
+            ps.setString(5, prov.getNumeroContacto());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Modificado correctamente.");
+        }catch (SQLException ex){
+            
+        }
+        }
+    public void eliminarProveedor(String id)throws SQLException {
+        ConexionBD con = new ConexionBD();
+        Connection cn = con.conexion();
+        PreparedStatement ps =  cn.prepareStatement("DELETE FROM mydb.proveedor WHERE mydb.id = " + id);
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Eliminado correctamente.");
+    }
+
+    void agregarProveedor(String text, String text0, String text1, String text2, String text3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}  
+
