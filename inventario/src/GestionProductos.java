@@ -1,3 +1,13 @@
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +23,76 @@ public class GestionProductos extends javax.swing.JFrame {
     /**
      * Creates new form GestionProductos
      */
-    public GestionProductos() {
+    ConexionBD con = new ConexionBD();
+    Connection cn = con.conexion();
+    Metodos met = new Metodos();
+    
+    public GestionProductos()throws SQLException {
         initComponents();
+        mostrar();
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
+            private void mostrar() throws SQLException{
+        DefaultTableModel model = new DefaultTableModel();
+        ResultSet rs = ConexionBD.getTabla("select idProd, nbrePro,FeElab, feVenc, precio, codBarra, nomCateg, cantidad from mydb.producto JOIN mydb.categoria ON (mydb.producto.Categoria_idCateg = mydb.categoria.idCateg) JOIN mudb.stock ON (mydb.producto.Stock_idStock = mydb.stock.idStock)");
+        model.setColumnIdentifiers(new Object[]{"id","nombre","Fecha elaboracion","Fecha vencimiento","Precio","Código de barra","Categoria","Stock"});
+        try {
+            while(rs.next()){
+                model.addRow(new Object[]{rs.getString("idProd"),rs.getString("nbrePro"),  rs.getString("FeElab") ,rs.getString("feVenc"),
+                rs.getString("precio"),rs.getString("codBarra"),rs.getString("nomCateg"),rs.getString("cantidad")});
+            }
+            jTable1.setModel(model);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        }
+            void mostrardatos(String id){
+    DefaultTableModel modelo= new DefaultTableModel();
+    modelo.addColumn("id");
+    modelo.addColumn("nombre");
+    modelo.addColumn("Fecha elaboracion");
+    modelo.addColumn("Fecha vencimiento");
+    modelo.addColumn("Precio");
+    modelo.addColumn("Código de barra");
+    modelo.addColumn("Categoria");
+    modelo.addColumn("Stock");
+
+
+    jTable1.setModel(modelo);
+    String sql="";
+    if(id.equals(""))
+    {
+        
+        sql="select idProd, nbrePro,FeElab, feVenc, precio, codBarra, nomCateg, cantidad from mydb.producto JOIN mydb.categoria ON (mydb.producto.Categoria_idCateg = mydb.categoria.idCateg) JOIN mydb.stock ON (mydb.producto.Stock_idStock = mydb.stock.idStock)";
+        JOptionPane.showMessageDialog(null, "Debe ingresar un número de ID");
+        
+    }
+    else{
+        sql="select idProd, nbrePro,FeElab, feVenc, precio, codBarra, nomCateg, cantidad from mydb.producto JOIN mydb.categoria ON (mydb.producto.Categoria_idCateg = mydb.categoria.idCateg) JOIN mydb.stock ON (mydb.producto.Stock_idStock = mydb.stock.idStock)";
+    }
+ 
+    String []datos = new String [7];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                datos[0]=rs.getString(1);   
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
+                datos[6]=rs.getString(7);
+                datos[7]=rs.getString(8);
+
+
+                modelo.addRow(datos);
+            }
+            jTable1.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -31,6 +109,11 @@ public class GestionProductos extends javax.swing.JFrame {
         btnModificarProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,6 +128,11 @@ public class GestionProductos extends javax.swing.JFrame {
         });
 
         btnModificarProd.setText("Modificar producto");
+        btnModificarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarProdActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,23 +152,58 @@ public class GestionProductos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar producto");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Ingrese el ID del producto");
+
+        jLabel3.setText("Para eliminar un producto debe buscarlo previamente");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregarProd)
-                .addGap(18, 18, 18)
-                .addComponent(btnModificarProd)
-                .addGap(96, 96, 96))
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jLabel1)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(btnAgregarProd)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificarProd)
+                        .addGap(96, 96, 96))))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(127, 127, 127)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(btnEliminar))
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -88,11 +211,19 @@ public class GestionProductos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarProd)
-                    .addComponent(btnModificarProd))
-                .addGap(75, 75, 75)
+                    .addComponent(btnModificarProd)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(14, 14, 14)
+                .addComponent(btnEliminar)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(106, Short.MAX_VALUE))
         );
@@ -109,6 +240,32 @@ public class GestionProductos extends javax.swing.JFrame {
         ap.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAgregarProdActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(txtBuscar.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Para buscar debe ingresar un ID");
+        }
+        else{
+        mostrardatos(txtBuscar.getText());
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            met.eliminarProducto(txtBuscar.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionProductos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProdActionPerformed
+        ModificarProducto mp = null;
+        mp = new ModificarProducto();
+        mp.setVisible(true);
+        this.setVisible(true);
+        setLocation(10, 10);
+        setResizable(false);
+    }//GEN-LAST:event_btnModificarProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,16 +297,25 @@ public class GestionProductos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionProductos().setVisible(true);
+                try {
+                    new GestionProductos().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GestionProductos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProd;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificarProd;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

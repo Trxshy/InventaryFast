@@ -185,7 +185,12 @@ public class MenuGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresarStockActionPerformed
 
     private void btnGestionproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionproductosActionPerformed
-        GestionProductos gp = new GestionProductos();
+        GestionProductos gp = null;
+        try {
+            gp = new GestionProductos();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuGeneral.class.getName()).log(Level.SEVERE, null, ex);
+        }
         gp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnGestionproductosActionPerformed
