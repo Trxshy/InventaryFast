@@ -68,7 +68,7 @@ public class AgregarProducto extends javax.swing.JFrame {
 
         jLabel7.setText("Categoria:");
 
-        cmb_categorias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_categorias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bolleria", "Bebidas", "Snack" }));
 
         txtcodB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,9 +90,9 @@ public class AgregarProducto extends javax.swing.JFrame {
             }
         });
 
-        txtFechaE.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        txtFechaE.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy/MM/dd"))));
 
-        txtFechaV.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        txtFechaV.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy/MM/dd"))));
 
         jLabel8.setText("Debe ingresar la fecha en el formato dd/MM/yyyy");
 

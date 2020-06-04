@@ -32,7 +32,7 @@ public class HistorialVentas extends javax.swing.JFrame {
     /*-------------------------No esta funcionando---------------------*/
         private void mostrar() throws SQLException{
         DefaultTableModel model = new DefaultTableModel();
-        ResultSet rs = ConexionBD.getTabla("select idBoleta, feEmi, mtoBole, , ctdadProduc, costo from mydb.boleta");
+        ResultSet rs = ConexionBD.getTabla("select idBoleta, (SELECT feEmi, mtoBole, , ctdadProduc, costo from mydb.boleta) from mydb.boleta WHERE mydb.boleta.idBoleta = mydb.his_ven.Boleta_idBoleta");
         model.setColumnIdentifiers(new Object[]{"id","Fecha","Monto","cantidad de productos","costo"});
         try {
             while(rs.next()){
