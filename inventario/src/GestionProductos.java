@@ -106,7 +106,6 @@ public class GestionProductos extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btnAgregarProd = new javax.swing.JButton();
-        btnModificarProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
@@ -124,13 +123,6 @@ public class GestionProductos extends javax.swing.JFrame {
         btnAgregarProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarProdActionPerformed(evt);
-            }
-        });
-
-        btnModificarProd.setText("Modificar producto");
-        btnModificarProd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarProdActionPerformed(evt);
             }
         });
 
@@ -186,9 +178,7 @@ public class GestionProductos extends javax.swing.JFrame {
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                         .addComponent(btnAgregarProd)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificarProd)
-                        .addGap(96, 96, 96))))
+                        .addGap(235, 235, 235))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -216,7 +206,6 @@ public class GestionProductos extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarProd)
-                    .addComponent(btnModificarProd)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,7 +221,16 @@ public class GestionProductos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+        ModificarProducto mpro = new ModificarProducto();
+        mpro.setVisible(true);
+        this.setVisible(false);
+        int cor = jTable1.getSelectedRow();
+        mpro.txtid.setText(jTable1.getValueAt(cor, 0).toString());
+        mpro.txtnombre.setText(jTable1.getValueAt(cor, 1).toString());
+        mpro.txtfeElab.setText(jTable1.getValueAt(cor, 2).toString());
+        mpro.txtfeVenc.setText(jTable1.getValueAt(cor, 3).toString());
+        mpro.txtprecio.setText(jTable1.getValueAt(cor, 4).toString());
+        mpro.txtcodBarra.setText(jTable1.getValueAt(cor, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void btnAgregarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProdActionPerformed
@@ -257,15 +255,6 @@ public class GestionProductos extends javax.swing.JFrame {
             Logger.getLogger(GestionProductos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnModificarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProdActionPerformed
-        ModificarProducto mp = null;
-        mp = new ModificarProducto();
-        mp.setVisible(true);
-        this.setVisible(true);
-        setLocation(10, 10);
-        setResizable(false);
-    }//GEN-LAST:event_btnModificarProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,7 +299,6 @@ public class GestionProductos extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarProd;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificarProd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

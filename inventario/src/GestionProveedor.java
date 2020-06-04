@@ -107,7 +107,6 @@ void mostrardatos(String id){
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaproveedor = new javax.swing.JTable();
         btnagregar = new javax.swing.JButton();
-        btnmodificar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         txtbuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -141,13 +140,6 @@ void mostrardatos(String id){
         btnagregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnagregarActionPerformed(evt);
-            }
-        });
-
-        btnmodificar.setText("Modificar proveedor");
-        btnmodificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmodificarActionPerformed(evt);
             }
         });
 
@@ -193,12 +185,9 @@ void mostrardatos(String id){
                                     .addComponent(jLabel2))
                                 .addGap(34, 34, 34)
                                 .addComponent(btnagregar)
-                                .addGap(28, 28, 28)
-                                .addComponent(btnmodificar))
-                            .addComponent(jLabel3)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(btnEliminar)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEliminar))
+                            .addComponent(jLabel3))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -211,14 +200,12 @@ void mostrardatos(String id){
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnagregar)
-                    .addComponent(btnmodificar)
                     .addComponent(btnBuscar)
-                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
         );
@@ -238,8 +225,7 @@ void mostrardatos(String id){
         this.setVisible(false);
     }//GEN-LAST:event_btnagregarActionPerformed
 
-    private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-        // TODO add your handling code here:
+    private void tablaproveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaproveedorMouseClicked
         ModificarProveedor mp = null;
         try {
             mp = new ModificarProveedor();
@@ -247,19 +233,14 @@ void mostrardatos(String id){
             Logger.getLogger(GestionProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         mp.setVisible(true);
-        this.setVisible(true);
-        setLocation(10, 10);
-        setResizable(false);
-    }//GEN-LAST:event_btnmodificarActionPerformed
-
-    private void tablaproveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaproveedorMouseClicked
+        this.setVisible(false);
         int cor =tablaproveedor.getSelectedRow();
-        ModificarProveedor.txtid.setText(tablaproveedor.getValueAt(cor, 0).toString());
-        ModificarProveedor.txtrut.setText(tablaproveedor.getValueAt(cor, 1).toString());
-        ModificarProveedor.txtdv.setText(tablaproveedor.getValueAt(cor, 2).toString());
-        ModificarProveedor.txtnombre.setText(tablaproveedor.getValueAt(cor, 3).toString());
-        ModificarProveedor.txtdireccion.setText(tablaproveedor.getValueAt(cor, 4).toString());
-        ModificarProveedor.txtnumero.setText(tablaproveedor.getValueAt(cor, 5).toString());
+        mp.txtid.setText(tablaproveedor.getValueAt(cor, 0).toString());
+        mp.txtrut.setText(tablaproveedor.getValueAt(cor, 1).toString());
+        mp.txtdv.setText(tablaproveedor.getValueAt(cor, 2).toString());
+        mp.txtnombre.setText(tablaproveedor.getValueAt(cor, 3).toString());
+        mp.txtdireccion.setText(tablaproveedor.getValueAt(cor, 4).toString());
+        mp.txtnumero.setText(tablaproveedor.getValueAt(cor, 5).toString());
         
         
     }//GEN-LAST:event_tablaproveedorMouseClicked
@@ -319,7 +300,6 @@ void mostrardatos(String id){
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnagregar;
-    private javax.swing.JButton btnmodificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

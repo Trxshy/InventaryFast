@@ -1,3 +1,12 @@
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,10 +22,23 @@ public class InicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form AgregarUsuario
      */
-    public InicioSesion() {
+    ConexionBD con = new ConexionBD();
+    Connection cn = con.conexion();
+    
+    public InicioSesion() throws SQLException {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);        
+    }
+    boolean validarUsuario(String user, String pass) throws SQLException{
+        Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM mydb.usuario WHERE nomUsu= " + "'"+user +"'"+ "AND clave = "+"'" +pass+"'");
+            if (rs.first()){
+                return true;
+            }
+            else{
+                return false;
+            }
     }
 
     /**
@@ -104,7 +126,20 @@ public class InicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        try {
+            if(txtNomusuario.getText().length() > 0 && txtcontrasenia.getPassword().length > 0){
+                char[] arrayC = txtcontrasenia.getPassword();
+                String pass = new String(arrayC);
+                if(validarUsuario(txtNomusuario.getText(), pass)){
+                    this.setVisible(false);
+                    MenuGeneral mg = new MenuGeneral();
+                    mg.setVisible(true);
+                }
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
@@ -138,7 +173,11 @@ public class InicioSesion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InicioSesion().setVisible(true);
+                try {
+                    new InicioSesion().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

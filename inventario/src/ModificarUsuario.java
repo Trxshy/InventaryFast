@@ -224,8 +224,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
             // TODO add your handling code here:
             GestionUsuarios gu = new GestionUsuarios();
             this.setVisible(false);
-            gu.setLocationRelativeTo(null);
-            gu.setResizable(false);
+            gu.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(ModificarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }

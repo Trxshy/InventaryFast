@@ -116,7 +116,6 @@ public class GestionUsuarios extends javax.swing.JFrame {
         txtRun = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
-        btnmodusuario = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -157,13 +156,6 @@ public class GestionUsuarios extends javax.swing.JFrame {
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
-            }
-        });
-
-        btnmodusuario.setText("Modificar Usuario");
-        btnmodusuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmodusuarioActionPerformed(evt);
             }
         });
 
@@ -210,12 +202,10 @@ public class GestionUsuarios extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jLabel2))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(btnmodusuario)
-                .addGap(151, 151, 151))
+                .addComponent(btnAgregar)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,12 +219,10 @@ public class GestionUsuarios extends javax.swing.JFrame {
                     .addComponent(btnBuscar)
                     .addComponent(txtRun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnmodusuario))
+                    .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(btnVolver)
@@ -256,8 +244,7 @@ public class GestionUsuarios extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnmodusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodusuarioActionPerformed
-        // TODO add your handling code here:
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
         ModificarUsuario mu = null;
         try {
             mu = new ModificarUsuario();
@@ -265,25 +252,20 @@ public class GestionUsuarios extends javax.swing.JFrame {
             Logger.getLogger(GestionUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         mu.setVisible(true);
-        setLocation(10, 10);
-        setResizable(false);
-    }//GEN-LAST:event_btnmodusuarioActionPerformed
-
-    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+        this.setVisible(false);
         int cor = tablaUsuarios.getSelectedRow();
-        ModificarUsuario.txtid.setText(tablaUsuarios.getValueAt(cor, 0).toString());
-        ModificarUsuario.txtrun.setText(tablaUsuarios.getValueAt(cor, 1).toString());
-        ModificarUsuario.txtdv.setText(tablaUsuarios.getValueAt(cor, 2).toString());
-        ModificarUsuario.txtnomusu.setText(tablaUsuarios.getValueAt(cor, 3).toString());
-        ModificarUsuario.txtnombre.setText(tablaUsuarios.getValueAt(cor, 4).toString());
-        ModificarUsuario.txtapellidoP.setText(tablaUsuarios.getValueAt(cor, 5).toString());
-        ModificarUsuario.txtapellidoM.setText(tablaUsuarios.getValueAt(cor, 6).toString());
-        ModificarUsuario.txtcorreo.setText(tablaUsuarios.getValueAt(cor, 7).toString());
-        ModificarUsuario.cmb_cargo.setSelectedItem(tablaUsuarios.getValueAt(cor, 8).toString());
+        mu.txtid.setText(tablaUsuarios.getValueAt(cor, 0).toString());
+        mu.txtrun.setText(tablaUsuarios.getValueAt(cor, 1).toString());
+        mu.txtdv.setText(tablaUsuarios.getValueAt(cor, 2).toString());
+        mu.txtnomusu.setText(tablaUsuarios.getValueAt(cor, 3).toString());
+        mu.txtnombre.setText(tablaUsuarios.getValueAt(cor, 4).toString());
+        mu.txtapellidoP.setText(tablaUsuarios.getValueAt(cor, 5).toString());
+        mu.txtapellidoM.setText(tablaUsuarios.getValueAt(cor, 6).toString());
+        mu.txtcorreo.setText(tablaUsuarios.getValueAt(cor, 7).toString());
+        mu.cmb_cargo.setSelectedItem(tablaUsuarios.getValueAt(cor, 8).toString());
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
         mostrardatos(txtRun.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -354,7 +336,6 @@ public class GestionUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton btnmodusuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

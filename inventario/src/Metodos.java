@@ -127,7 +127,7 @@ public class Metodos {
         ps.executeUpdate();
         JOptionPane.showMessageDialog(null, "Agregado correctamente.");
     }
-    public void modificarProducto(Proveedor prov, String id)throws SQLException{
+    public void modificarProducto(Producto prod, String id)throws SQLException{
         ConexionBD con = new ConexionBD();
         Connection cn = con.conexion();
         PreparedStatement ps = cn.prepareStatement("UPDATE mydb.producto SET nbrePro=?,FeElab=?,feVenc=?,precio=?,codBarra=? WHERE idProd = "+ id);
@@ -142,6 +142,6 @@ public class Metodos {
         JOptionPane.showMessageDialog(null, "Eliminado correctamente.");
     
     }
-    
+
 }  
 

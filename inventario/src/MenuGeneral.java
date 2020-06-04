@@ -231,7 +231,12 @@ public class MenuGeneral extends javax.swing.JFrame {
     private void btncerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarsesionActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Su sesión ha finalizado","",JOptionPane.INFORMATION_MESSAGE);
-        InicioSesion is = new InicioSesion();
+        InicioSesion is = null;
+        try {
+            is = new InicioSesion();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuGeneral.class.getName()).log(Level.SEVERE, null, ex);
+        }
         is.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btncerrarsesionActionPerformed
